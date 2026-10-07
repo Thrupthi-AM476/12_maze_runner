@@ -17,7 +17,7 @@ LEADERBOARD_FILE = "leaderboard.json"
 MAX_SCORES       = 5
 FOG_RADIUS       = 3                # cells visible around player (fog of war)
 
-# Difficulty presets  (label, cols, rows)
+# Difficulty presets — (label, cols, rows) used for the selection screen
 DIFFICULTIES = [
     ("Easy",   10,  8),
     ("Medium", 15, 13),
