@@ -61,6 +61,7 @@ def bfs_path(walls, rows, cols, start, goal):
 # ── Leaderboard helpers ────────────────────────────────────────────────────────
 
 def load_leaderboard():
+    """Load scores from leaderboard.json. Returns [] if file missing or corrupt."""
     if os.path.exists(LEADERBOARD_FILE):
         try:
             with open(LEADERBOARD_FILE, "r") as f:
@@ -78,6 +79,7 @@ def save_leaderboard(scores):
 
 
 def add_score(elapsed):
+    """Add a completion time, keep only top MAX_SCORES, persist to JSON."""
     scores = load_leaderboard()
     scores.append(round(elapsed, 2))
     scores.sort()
