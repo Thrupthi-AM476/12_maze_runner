@@ -15,7 +15,7 @@ FOG_COLOR  = (15,  15,  25, 230)    # near-black fog overlay
 
 LEADERBOARD_FILE = "leaderboard.json"
 MAX_SCORES       = 5
-FOG_RADIUS       = 3                # cells visible around player
+FOG_RADIUS       = 3                # cells visible around player (fog of war)
 
 # Difficulty presets  (label, cols, rows)
 DIFFICULTIES = [
@@ -205,18 +205,23 @@ class GameEngine:
         self.screen.blit(surf, (0, 0))
 
     def _draw_fog(self):
-        """Fog of war: dark overlay with circular cutout around the player."""
+        """
+        Fog of war: cover the entire maze with a dark overlay, then punch
+        a transparent circular hole around the player so only nearby cells
+        are visible (radius = FOG_RADIUS cells).
+        """
         width  = self.cols * CELL
         height = self.rows * CELL
         fog = pygame.Surface((width, height), pygame.SRCALPHA)
         fog.fill(FOG_COLOR)
 
-        # Reveal radius in pixels
+        # Reveal radius: FOG_RADIUS full cells + half a cell so the
+        # player's own cell is always fully visible
         reveal_px = int(FOG_RADIUS * CELL + CELL // 2)
         cx = self.player.rect.centerx
         cy = self.player.rect.centery
 
-        # Cut a transparent circle out of the fog so nearby area is visible
+        # Draw a fully transparent circle to "erase" the fog in that area
         pygame.draw.circle(fog, (0, 0, 0, 0), (cx, cy), reveal_px)
         self.screen.blit(fog, (0, 0))
 
